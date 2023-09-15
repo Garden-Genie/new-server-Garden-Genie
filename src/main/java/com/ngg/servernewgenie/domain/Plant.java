@@ -1,6 +1,7 @@
 package com.ngg.servernewgenie.domain;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Table(name = "plant")
+@NoArgsConstructor
 public class Plant implements Serializable {
 
     @Id
