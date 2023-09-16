@@ -7,7 +7,8 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-@AllArgsConstructor @NoArgsConstructor @Builder
+@AllArgsConstructor @NoArgsConstructor
+@Builder
 public class Authority {
 
     @Id

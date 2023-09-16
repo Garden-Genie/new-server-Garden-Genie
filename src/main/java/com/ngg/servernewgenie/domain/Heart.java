@@ -10,8 +10,8 @@ import java.io.Serializable;
 @Entity
 @Getter
 @Setter
-@Table(name = "heart")
 @NoArgsConstructor
+@Table(name = "heart")
 public class Heart implements Serializable {
 
     @Id

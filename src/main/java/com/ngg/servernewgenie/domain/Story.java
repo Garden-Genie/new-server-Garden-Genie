@@ -11,8 +11,8 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-@Table(name = "story")
 @NoArgsConstructor
+@Table(name = "story")
 public class Story implements Serializable {
 
     @Id
