@@ -18,7 +18,7 @@ public class Plant implements Serializable {
     @Id
     @GeneratedValue
     @Column(nullable = false, name = "plt_id")
-    private int plt_id;
+    private Long plt_id;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
@@ -36,7 +36,7 @@ public class Plant implements Serializable {
     @Column(nullable = false)
     private LocalDateTime created_at; // createdAt 필드 추가
 
-    public Plant(int plt_id, User user, String plt_name, String plt_img){
+    public Plant(Long plt_id, User user, String plt_name, String plt_img){
         this.plt_id = plt_id;
         this.user = user;
         this.plt_img = plt_img;
