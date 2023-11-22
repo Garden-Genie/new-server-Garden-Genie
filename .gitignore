@@ -28,6 +28,11 @@ out/
 
 ### properties
 application.yml
+application.properties
+apikey.properties
+db.yml
+
+ChatGptConfig.java
 
 ### NetBeans ###
 /nbproject/private/
