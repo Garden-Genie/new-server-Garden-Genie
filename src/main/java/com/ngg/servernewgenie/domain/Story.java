@@ -52,4 +52,12 @@ public class Story implements Serializable {
         this.plant = plant;
         this.upload = upload;
     }
+
+    public void setStoryExplain(String storyExplain) {
+        this.story_explain = storyExplain;
+    }
+
+    public String getStoryExplain() {
+        return story_explain;
+    }
 }
