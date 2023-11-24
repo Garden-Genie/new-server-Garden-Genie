@@ -22,6 +22,8 @@ public class CustomUserDetails implements UserDetails {
         return user.getUserId();
     }
 
+    public Long getUserNum() { return user.getUserNum(); }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return user.getRoles().stream().map(o -> new SimpleGrantedAuthority(
@@ -33,6 +35,8 @@ public class CustomUserDetails implements UserDetails {
     public String getPassword() {
         return user.getUserPwd();
     }
+
+
 
     @Override
     public String getUsername() {

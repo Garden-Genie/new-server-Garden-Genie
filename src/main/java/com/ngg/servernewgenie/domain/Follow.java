@@ -15,7 +15,7 @@ import java.io.Serializable;
 public class Follow implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, name = "follow_id")
     private Long followId;
 
@@ -27,8 +27,7 @@ public class Follow implements Serializable {
     @JoinColumn(name = "from_user_id", referencedColumnName = "user_num", nullable = false)
     private User fromUser;
 
-    public Follow(Long followId, User toUser, User fromUser) {
-        this.followId = followId;
+    public Follow(User toUser, User fromUser) {
         this.toUser = toUser;
         this.fromUser = fromUser;
     }
