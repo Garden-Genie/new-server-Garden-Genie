@@ -2,6 +2,7 @@ package com.ngg.servernewgenie.controller;
 
 import com.ngg.servernewgenie.domain.CustomUserDetails;
 import com.ngg.servernewgenie.domain.Follow;
+import com.ngg.servernewgenie.domain.Story;
 import com.ngg.servernewgenie.domain.User;
 import com.ngg.servernewgenie.repository.FollowRepository;
 import com.ngg.servernewgenie.repository.UserRepository;
@@ -83,4 +84,31 @@ public class FollowController {
 
         return new ResponseEntity<>(followingUsers, HttpStatus.OK);
     }
+
+    @GetMapping("/follow/followingCount/{userId}")
+    public ResponseEntity<Long> getFollowingCount(@PathVariable Long userId) {
+        User user = new User();
+        user.setUserNum(userId);
+
+        Long followingCount = followService.getFollowingCount(user);
+        return new ResponseEntity<>(followingCount, HttpStatus.OK);
+    }
+
+//    @GetMapping("/follow/followingStories")
+//    public ResponseEntity<List<Story>> getFollowingStories() {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        if (authentication == null || !authentication.isAuthenticated()) {
+//            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+//        }
+//
+//        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+//        Long userId = userDetails.getUserNum();
+//        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+//
+//        List<Follow> followingList = followService.getFollowingList(user);
+//        List<Story> followingStories = followService.followingStories(followingList);
+//
+//
+//        return new ResponseEntity<>(followingStories, HttpStatus.OK);
+//    }
 }
