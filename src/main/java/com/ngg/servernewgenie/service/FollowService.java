@@ -27,6 +27,11 @@ public class FollowService {
         Follow follow = new Follow(fromUser, toUser);
         followRepository.save(follow);
     }
+
+    @Transactional
+    public void unfollow(User fromUser, User toUser) {
+        followRepository.unfollow(fromUser, toUser);
+    }
 }
 
 
