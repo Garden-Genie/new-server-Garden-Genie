@@ -32,6 +32,11 @@ public class FollowService {
     public void unfollow(User fromUser, User toUser) {
         followRepository.unfollow(fromUser, toUser);
     }
+
+    @Transactional
+    public List<Follow> getFollowingList(User fromUser) {
+        return followRepository.findAllByFromUser(fromUser);
+    }
 }
 
 

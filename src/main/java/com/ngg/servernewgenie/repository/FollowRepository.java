@@ -11,15 +11,9 @@ import java.util.List;
 
 public interface FollowRepository extends JpaRepository<Follow, Long> {
 
-//    @Modifying
-//    @Query("DELETE FROM Follow WHERE fromUser = :fromUser AND toUser = :toUser")
-//    void unfollow(@Param("fromUser") Long fromUser, @Param("toUser") Long toUser);
-
     @Modifying
     @Query("DELETE FROM Follow WHERE fromUser = :fromUser AND toUser = :toUser")
     void unfollow(@Param("fromUser") User fromUser, @Param("toUser") User toUser);
-
-
 
     List<Follow> findAllByFromUser(User fromUser);
 
