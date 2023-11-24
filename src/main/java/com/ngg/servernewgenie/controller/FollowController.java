@@ -1,8 +1,8 @@
 package com.ngg.servernewgenie.controller;
 
 import com.ngg.servernewgenie.domain.CustomUserDetails;
+import com.ngg.servernewgenie.domain.Follow;
 import com.ngg.servernewgenie.domain.User;
-import com.ngg.servernewgenie.dto.FollowSaveRequestDto;
 import com.ngg.servernewgenie.repository.FollowRepository;
 import com.ngg.servernewgenie.repository.UserRepository;
 import com.ngg.servernewgenie.service.FollowService;
@@ -11,8 +11,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
@@ -59,5 +62,25 @@ public class FollowController {
         followService.unfollow(fromUser, toUser);
 
         return new ResponseEntity<>("언팔로우 성공", HttpStatus.OK);
+    }
+
+    @GetMapping("/follow/following")
+    public ResponseEntity<List<User>> getFollowingList() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return new ResponseEntity<List<User>>(Collections.emptyList(), HttpStatus.UNAUTHORIZED);
+        }
+
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        User fromUser = userRepository.findById(userDetails.getUserNum()).orElse(null);
+
+        if (fromUser == null) {
+            return new ResponseEntity<List<User>>(Collections.emptyList(), HttpStatus.NOT_FOUND);
+        }
+
+        List<Follow> followingList = followService.getFollowingList(fromUser);
+        List<User> followingUsers = followingList.stream().map(Follow::getToUser).collect(Collectors.toList());
+
+        return new ResponseEntity<>(followingUsers, HttpStatus.OK);
     }
 }
