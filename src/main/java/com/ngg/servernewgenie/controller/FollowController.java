@@ -12,10 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -44,4 +41,23 @@ public class FollowController {
         return new ResponseEntity<>("팔로우 성공", HttpStatus.OK);
     }
 
+    @DeleteMapping("/follow/{toUserId}")
+    public ResponseEntity unfollowUser(@PathVariable Long toUserId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return new ResponseEntity<>("인증되지 않은 사용자입니다.", HttpStatus.UNAUTHORIZED);
+        }
+
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        User fromUser = userRepository.findById(userDetails.getUserNum()).orElse(null);
+        User toUser = userRepository.findById(toUserId).orElse(null);
+
+        if (fromUser == null || toUser == null) {
+            return new ResponseEntity<>("사용자를 찾을 수 없습니다.", HttpStatus.NOT_FOUND);
+        }
+
+        followService.unfollow(fromUser, toUser);
+
+        return new ResponseEntity<>("언팔로우 성공", HttpStatus.OK);
+    }
 }
