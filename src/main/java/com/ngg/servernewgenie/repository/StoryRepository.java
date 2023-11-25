@@ -10,12 +10,7 @@ import java.util.List;
 @Repository
 public interface StoryRepository extends JpaRepository<Story, Long> {
 
-    List<Story> findByUserNum(Long userNum);
+    List<Story> findByUser(Long userNum);
 
-    Story findByStoryId(Long storyId);
-
-    List<Story> findByUserNumIn(List<Long> userNums);
-
-    @Query("SELECT s FROM Story s")
-    List<Story> findAllStories();
+//    List<Story> findAllStories();
 }

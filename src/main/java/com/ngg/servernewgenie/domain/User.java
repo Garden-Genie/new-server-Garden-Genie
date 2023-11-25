@@ -37,6 +37,11 @@ public class User implements Serializable {
     @Builder.Default
     private List<Authority> roles = new ArrayList<>();
 
+
+    public User(Long userNum) {
+        this.userNum = userNum;
+    }
+
     public void setRoles(List<Authority> role){
         this.roles = role;
         role.forEach(o -> o.setUser(this));

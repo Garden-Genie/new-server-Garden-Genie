@@ -1,5 +1,6 @@
 package com.ngg.servernewgenie.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ngg.servernewgenie.domain.Story;
 import com.ngg.servernewgenie.service.StoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,16 +33,32 @@ public class StoryController {
         }
     }
 
+//    // 2. 스토리 조회 (UserNum)
+//    @GetMapping("/view/user/{userNum}")
+//    public ResponseEntity<List<Story>> viewUserStories(@PathVariable Long userNum) {
+//        try {
+//            List<Story> userStories = storyService.getUserStories(userNum);
+//            return new ResponseEntity<>(userStories, HttpStatus.OK);
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
+
     // 2. 스토리 조회 (UserNum)
     @GetMapping("/view/user/{userNum}")
-    public ResponseEntity<List<Story>> viewUserStories(@PathVariable Long userNum) {
+    public ResponseEntity<Object> viewUserStories(@PathVariable Long userNum) {
         try {
             List<Story> userStories = storyService.getUserStories(userNum);
-            return new ResponseEntity<>(userStories, HttpStatus.OK);
+
+            // 결과를 그대로 ResponseEntity에 설정
+            return ResponseEntity.ok().body(userStories);
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            // 에러가 발생한 경우 INTERNAL_SERVER_ERROR 반환
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
+
+
 
     // 3. 스토리 조회 (StoryId)
     @GetMapping("/view/story/{storyId}")

@@ -33,12 +33,14 @@ public class StoryService {
 
     @Transactional(readOnly = true)
     public List<Story> getUserStories(Long userNum) {
-        return storyRepository.findByUserNum(userNum);
+        return storyRepository.findByUser(userNum);
     }
 
     @Transactional(readOnly = true)
     public Story getStory(Long storyId) {
-        return storyRepository.findByStoryId(storyId);
+        //return storyRepository.findById(storyId);
+        Optional<Story> optionalStory = storyRepository.findById(storyId);
+        return optionalStory.orElse(null);
     }
 
     @Transactional(readOnly = true)
@@ -51,7 +53,7 @@ public class StoryService {
 
     @Transactional(readOnly = true)
     public List<Story> getAllStories() {
-        return storyRepository.findAllStories();
+        return storyRepository.findAll();
     }
 
     @Transactional

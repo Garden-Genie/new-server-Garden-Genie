@@ -29,3 +29,28 @@ public class Authority {
         this.user = user;
     }
 }
+
+
+//@Entity
+//@Getter
+//@AllArgsConstructor
+//@NoArgsConstructor
+//@Builder
+//public class Authority {
+//
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @JsonIgnore
+//    private Long authorityId;
+//
+//    private String userName;
+//
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "user_num", referencedColumnName = "userNum")
+//    @JsonIgnore
+//    private User user;
+//
+//    public void setUser(User user){
+//        this.user = user;
+//    }
+//}
