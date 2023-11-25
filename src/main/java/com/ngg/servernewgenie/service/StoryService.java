@@ -7,28 +7,13 @@ import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.logging.Logger;
 import java.util.Date;
 import java.util.List;
 
-
-//public interface StoryService {
-//
-//    void save(Story story);
-//
-//    List<Story> findByUserId(Long userId);
-//
-//    Story findById(Long storyId);
-//
-//    List<Story> findByUserIdAndDateGreaterThan(Long userId, Date date);
-//
-//    List<Story> findAll();
-//
-//    void delete(Long storyId);
-//}
-//=======
 
 
 @Service
@@ -39,28 +24,38 @@ public class StoryService {
     @Autowired
     private StoryRepository storyRepository;
 
-    //------------here
-    public void save(Story story) {
-        storyRepository.save(story);
+    //--------------sh
+
+    @Transactional
+    public Story saveStory(Story story) {
+        return storyRepository.save(story);
     }
 
-//    public List<Story> findByUserId(Long userId) {
-//        return storyRepository.findByUserId(userId);
-//    }
-
-    public Story findById(Long storyId) {
-        return storyRepository.findById(storyId).orElse(null);
+    @Transactional(readOnly = true)
+    public List<Story> getUserStories(Long userNum) {
+        return storyRepository.findByUserNum(userNum);
     }
 
-//    public List<Story> findByUserIdAndDateGreaterThan(Long userId, Date date) {
-//        return storyRepository.findByUserIdAndStoryDateGreaterThan(userId, date);
-//    }
-
-    public List<Story> findAll() {
-        return storyRepository.findAll();
+    @Transactional(readOnly = true)
+    public Story getStory(Long storyId) {
+        return storyRepository.findByStoryId(storyId);
     }
 
-    public void delete(Long storyId) {
+    @Transactional(readOnly = true)
+    public List<Story> getFollowingStories(Long fromUserNum) {
+
+        // todo : Logic to get stories from following users
+
+        return null;
+    }
+
+    @Transactional(readOnly = true)
+    public List<Story> getAllStories() {
+        return storyRepository.findAllStories();
+    }
+
+    @Transactional
+    public void deleteStory(Long storyId) {
         storyRepository.deleteById(storyId);
     }
     //-----------------

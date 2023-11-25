@@ -15,6 +15,14 @@ import java.time.LocalDateTime;
 @Table(name = "story")
 public class Story implements Serializable {
 
+    public Long getStoryId() {
+        return story_id;
+    }
+
+    public void setStoryId(Long storyId) {
+        this.story_id = storyId;
+    }
+
     @Id
     @GeneratedValue
     @Column(nullable = false, name = "story_id")

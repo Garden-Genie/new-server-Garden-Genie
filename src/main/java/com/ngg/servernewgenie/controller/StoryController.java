@@ -21,55 +21,74 @@ public class StoryController {
     @Autowired
     private StoryService storyService;
 
-    // POST 요청으로 Story 저장
+    // 1. 스토리 생성
     @PostMapping("/save")
     public ResponseEntity<String> saveStory(@RequestBody Story story) {
-        storyService.save(story);
-        return new ResponseEntity<>("Story saved successfully", HttpStatus.CREATED);
+        try {
+            Story savedStory = storyService.saveStory(story);
+            return new ResponseEntity<>("Story saved with ID: " + savedStory.getStoryId(), HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
-//    // GET 요청으로 특정 사용자의 모든 Story 가져오기
-//    @GetMapping("/view/{userId}")
-//    public ResponseEntity<List<Story>> getUserStories(@PathVariable Long userId) {
-//        List<Story> userStories = storyService.findByUserId(userId);
-//        return new ResponseEntity<>(userStories, HttpStatus.OK);
-//    }
-
-    // GET 요청으로 특정 Story 가져오기
-    @GetMapping("/view/{storyId}")
-    public ResponseEntity<Story> getStoryById(@PathVariable Long storyId) {
-        Story story = storyService.findById(storyId);
-        return new ResponseEntity<>(story, HttpStatus.OK);
+    // 2. 스토리 조회 (UserNum)
+    @GetMapping("/view/user/{userNum}")
+    public ResponseEntity<List<Story>> viewUserStories(@PathVariable Long userNum) {
+        try {
+            List<Story> userStories = storyService.getUserStories(userNum);
+            return new ResponseEntity<>(userStories, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
-//    // GET 요청으로 특정 사용자의 특정 이전 날짜 이후의 Story 가져오기
-//    @GetMapping("/view/{fromUserId}")
-//    public ResponseEntity<List<Story>> getStoriesFromUser(@PathVariable Long fromUserId,
-//                                                          @RequestParam(name = "date") String date) {
-//        try {
-//            Date fromDate = new SimpleDateFormat("yyyy-MM-dd").parse(date);
-//            List<Story> userStories = storyService.findByUserIdAndDateGreaterThan(fromUserId, fromDate);
-//            return new ResponseEntity<>(userStories, HttpStatus.OK);
-//        } catch (ParseException e) {
-//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//        }
-//    }
+    // 3. 스토리 조회 (StoryId)
+    @GetMapping("/view/story/{storyId}")
+    public ResponseEntity<Story> viewStory(@PathVariable Long storyId) {
+        try {
+            Story story = storyService.getStory(storyId);
+            return new ResponseEntity<>(story, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
-    // GET 요청으로 모든 Story 가져오기
+    // 4. 스토리 조회 (fromUserNum)
+    @GetMapping("/view/following/{fromUserNum}")
+    public ResponseEntity<List<Story>> viewFollowingStories(@PathVariable Long fromUserNum) {
+        try {
+            List<Story> followingStories = storyService.getFollowingStories(fromUserNum);
+            return new ResponseEntity<>(followingStories, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    // 5. 스토리 전체 조회
     @GetMapping("/allStory")
-    public ResponseEntity<List<Story>> getAllStories() {
-        List<Story> allStories = storyService.findAll();
-        return new ResponseEntity<>(allStories, HttpStatus.OK);
+    public ResponseEntity<List<Story>> viewAllStories() {
+        try {
+            List<Story> allStories = storyService.getAllStories();
+            return new ResponseEntity<>(allStories, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
-    // DELETE 요청으로 특정 Story 삭제
-    @GetMapping("/delete/{storyId}")
+    // 6. 스토리 삭제
+    @DeleteMapping("/delete/{storyId}")
     public ResponseEntity<String> deleteStory(@PathVariable Long storyId) {
-        storyService.delete(storyId);
-        return new ResponseEntity<>("Story deleted successfully", HttpStatus.OK);
+        try {
+            storyService.deleteStory(storyId);
+            return new ResponseEntity<>("Story deleted successfully", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
-    // uzin
+
+    // uz
     @PostMapping("/explain/save")
     public ResponseEntity<String> saveStoryExplain(@RequestHeader("storyId") Long storyId, @RequestBody String storyExplain) {
         storyService.saveStoryExplain(storyId, storyExplain); // body가 그대로 저장됨 (json으로 인식 못하는 듯)
