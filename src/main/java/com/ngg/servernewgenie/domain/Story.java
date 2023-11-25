@@ -18,7 +18,7 @@ public class Story implements Serializable {
     @Id
     @GeneratedValue
     @Column(nullable = false, name = "story_id")
-    private int story_id;
+    private Long story_id;
 
     @OneToOne
     @JoinColumn(name = "plt_id", referencedColumnName = "plt_id", nullable = false)
@@ -42,7 +42,7 @@ public class Story implements Serializable {
     @Column(nullable = false, name = "upload", columnDefinition = "boolean default false")
     private boolean upload;
 
-    public Story(int story_id, LocalDateTime story_date, String story_explain, String story_music, String story_poem, String story_condition, Plant plant, boolean upload){
+    public Story(long story_id, LocalDateTime story_date, String story_explain, String story_music, String story_poem, String story_condition, Plant plant, boolean upload){
         this.story_id = story_id;
         this.story_date = story_date;
         this.story_explain = story_explain;
