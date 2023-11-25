@@ -33,6 +33,7 @@ public class FollowService {
         followRepository.save(follow);
     }
 
+
     @Transactional
     public void unfollow(User fromUser, User toUser) {
         followRepository.unfollow(fromUser, toUser);
