@@ -15,21 +15,20 @@ import java.io.Serializable;
 public class Follow implements Serializable {
 
     @Id
-    @GeneratedValue
-    @Column(nullable = false, name = "f_id")
-    private Long f_id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false, name = "follow_id")
+    private Long followId;
 
     @ManyToOne
     @JoinColumn(name = "to_user_id", referencedColumnName = "user_num", nullable = false)
-    private User to_user_id;
+    private User toUser;
 
     @ManyToOne
     @JoinColumn(name = "from_user_id", referencedColumnName = "user_num", nullable = false)
-    private User from_user_id;
+    private User fromUser;
 
-    public Follow(Long f_id, User to_user_id, User from_user_id) {
-        this.f_id = f_id;
-        this.to_user_id = to_user_id;
-        this.from_user_id = from_user_id;
+    public Follow(User toUser, User fromUser) {
+        this.toUser = toUser;
+        this.fromUser = fromUser;
     }
 }
