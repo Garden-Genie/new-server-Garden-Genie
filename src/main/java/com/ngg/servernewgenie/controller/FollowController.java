@@ -34,16 +34,17 @@ public class FollowController {
         }
 
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-        User toUser = userRepository.findById(userDetails.getUserNum())
+        User fromUser = userRepository.findById(userDetails.getUserNum())
                 .orElseThrow(() -> new RuntimeException("인증된 사용자를 찾을 수 없습니다."));
 
-        User fromUser = userRepository.findById(toUserId)
+        User toUser = userRepository.findById(toUserId)
                 .orElseThrow(() -> new RuntimeException("팔로우 대상 사용자를 찾을 수 없습니다."));
 
         followService.follow(fromUser, toUser);
 
         return new ResponseEntity<>("팔로우 성공", HttpStatus.OK);
     }
+
 
     @DeleteMapping("/follow/{toUserId}")
     public ResponseEntity unfollowUser(@PathVariable Long toUserId) {
