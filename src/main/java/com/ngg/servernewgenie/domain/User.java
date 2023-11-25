@@ -38,10 +38,13 @@ public class User implements Serializable {
     private List<Authority> roles = new ArrayList<>();
 
 
+<<<<<<< HEAD
     public User(Long userNum) {
         this.userNum = userNum;
     }
 
+=======
+>>>>>>> dad001a9558757c12dfab3b6d6370665314d49a7
     public void setRoles(List<Authority> role){
         this.roles = role;
         role.forEach(o -> o.setUser(this));
