@@ -1,16 +1,16 @@
 package com.ngg.servernewgenie.controller;
 
-import com.ngg.servernewgenie.dto.HeartDTO;
+import com.ngg.servernewgenie.dto.HeartRequestDTO;
+import com.ngg.servernewgenie.dto.HeartResponseDTO;
 import com.ngg.servernewgenie.service.HeartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/heart")
+//@RequestMapping("/api/heart")
 public class HeartController {
 
     private final HeartService heartService;
@@ -21,20 +21,20 @@ public class HeartController {
     }
 
     @PostMapping("/heart/{storyId}")
-    public ResponseEntity<HeartDTO> addHeart(@PathVariable Long userId, @PathVariable Long storyId) {
-        HeartDTO heartDTO = heartService.addLike(userId, storyId);
+    public ResponseEntity<HeartResponseDTO> addHeart(@RequestBody HeartRequestDTO requestDTO) {
+        HeartResponseDTO heartDTO = heartService.addLike(requestDTO);
         return ResponseEntity.ok(heartDTO);
     }
 
     @DeleteMapping("/heart/delete/{userId}")
-    public ResponseEntity<String> deleteHeart(@PathVariable Long userId, @PathVariable Long storyId) {
-        heartService.deleteLike(userId, storyId);
+    public ResponseEntity<String> deleteHeart(@RequestBody HeartRequestDTO requestDTO) {
+        heartService.deleteLike(requestDTO);
         return ResponseEntity.ok("좋아요 취소 성공");
     }
 
     @GetMapping("/heart/view/{userId}")
-    public ResponseEntity<List<HeartDTO>> getLikedStoriesByUser(@PathVariable Long userId) {
-        List<HeartDTO> likedStories = heartService.getLikedStoriesByUser(userId);
+    public ResponseEntity<List<HeartResponseDTO>> getLikedStoriesByUser(@PathVariable Long userId) {
+        List<HeartResponseDTO> likedStories = heartService.getLikedStoriesByUser(userId);
         return ResponseEntity.ok(likedStories);
     }
 
