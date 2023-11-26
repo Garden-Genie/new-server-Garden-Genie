@@ -28,11 +28,11 @@ public class Heart implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "story_id", referencedColumnName = "story_id", nullable = false)
-    private Story story_id;
+    private Story story;
 
-    public Heart(Long h_id, User liker, Story story_id) {
+    public Heart(Long h_id, User liker, Story story) {
         this.h_id = h_id;
         this.liker = liker;
-        this.story_id = story_id;
+        this.story = story;
     }
 }
