@@ -9,9 +9,9 @@ import java.util.List;
 
 public interface HeartRepository extends JpaRepository<Heart, Long> {
 
-    Heart findByLikerAndStory_id(User liker, Story story_id);
+    Heart findByLikerAndStory(User liker, Story story);
 
     List<Heart> findByLiker(User liker);
 
-    List<Heart> findByStory_id(Story story);
+    List<Heart> findByStory(Story story);
 }
