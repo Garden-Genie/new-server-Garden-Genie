@@ -2,7 +2,9 @@ package com.ngg.servernewgenie.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ngg.servernewgenie.domain.Story;
+import com.ngg.servernewgenie.domain.User;
 import com.ngg.servernewgenie.service.StoryService;
+import com.ngg.servernewgenie.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.ngg.servernewgenie.dto.StoryExplainResponseDto;
 import org.springframework.http.HttpEntity;
@@ -15,6 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+
 @RestController
 @RequestMapping(value = "/Story")
 public class StoryController {
@@ -22,31 +25,28 @@ public class StoryController {
     @Autowired
     private StoryService storyService;
 
-    // 1. 스토리 생성
-    @PostMapping("/save")
-    public ResponseEntity<String> saveStory(@RequestBody Story story) {
+    private final UserService userService;
+
+    @Autowired
+    public StoryController(UserService userService) {
+        this.userService = userService;
+    }
+
+    // 1. 스토리 업로드 000
+    @PostMapping("/upload/{storyId}")
+    public ResponseEntity<String> updateUploadAttribute(@PathVariable Long storyId) {
         try {
-            Story savedStory = storyService.saveStory(story);
-            return new ResponseEntity<>("Story saved with ID: " + savedStory.getStoryId(), HttpStatus.CREATED);
+            storyService.updateUploadByStoryId(storyId);
+            return new ResponseEntity<>("Story uploaded successfully", HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-//    // 2. 스토리 조회 (UserNum)
-//    @GetMapping("/view/user/{userNum}")
-//    public ResponseEntity<List<Story>> viewUserStories(@PathVariable Long userNum) {
-//        try {
-//            List<Story> userStories = storyService.getUserStories(userNum);
-//            return new ResponseEntity<>(userStories, HttpStatus.OK);
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
-
-    // 2. 스토리 조회 (UserNum)
+    // 2. 스토리 조회 (UserNum) OOO
     @GetMapping("/view/user/{userNum}")
-    public ResponseEntity<Object> viewUserStories(@PathVariable Long userNum) {
+    public ResponseEntity<Object> viewUserStories(@PathVariable(name = "userNum") Long userNum) {
+
         try {
             List<Story> userStories = storyService.getUserStories(userNum);
 
@@ -58,9 +58,7 @@ public class StoryController {
         }
     }
 
-
-
-    // 3. 스토리 조회 (StoryId)
+    // 3. 스토리 조회 (StoryId) OOO
     @GetMapping("/view/story/{storyId}")
     public ResponseEntity<Story> viewStory(@PathVariable Long storyId) {
         try {
@@ -82,7 +80,7 @@ public class StoryController {
         }
     }
 
-    // 5. 스토리 전체 조회
+    // 5. 스토리 전체 조회 OOO
     @GetMapping("/allStory")
     public ResponseEntity<List<Story>> viewAllStories() {
         try {
@@ -93,7 +91,7 @@ public class StoryController {
         }
     }
 
-    // 6. 스토리 삭제
+    // 6. 스토리 삭제 OOO
     @DeleteMapping("/delete/{storyId}")
     public ResponseEntity<String> deleteStory(@PathVariable Long storyId) {
         try {

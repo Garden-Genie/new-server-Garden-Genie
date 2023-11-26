@@ -1,6 +1,7 @@
 package com.ngg.servernewgenie.service;
 
 import com.ngg.servernewgenie.domain.Story;
+import com.ngg.servernewgenie.domain.User;
 import com.ngg.servernewgenie.repository.StoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
@@ -24,16 +25,21 @@ public class StoryService {
     @Autowired
     private StoryRepository storyRepository;
 
+    @Autowired
+    public StoryService(StoryRepository storyRepository) {
+        this.storyRepository = storyRepository;
+    }
+
     //--------------sh
 
     @Transactional
-    public Story saveStory(Story story) {
-        return storyRepository.save(story);
+    public void updateUploadByStoryId(Long storyId) {
+        storyRepository.updateUploadStatus(storyId);
     }
 
     @Transactional(readOnly = true)
     public List<Story> getUserStories(Long userNum) {
-        return storyRepository.findByUser(userNum);
+        return storyRepository.findByUser_UserNum(userNum);
     }
 
     @Transactional(readOnly = true)
@@ -43,6 +49,7 @@ public class StoryService {
         return optionalStory.orElse(null);
     }
 
+    // 4. 스토리 조회 (fromUserNum)
     @Transactional(readOnly = true)
     public List<Story> getFollowingStories(Long fromUserNum) {
 
