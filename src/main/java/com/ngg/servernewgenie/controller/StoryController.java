@@ -32,7 +32,7 @@ public class StoryController {
         this.userService = userService;
     }
 
-    // 1. 스토리 업로드 000
+    // 1. 스토리 업로드
     @PostMapping("/upload/{storyId}")
     public ResponseEntity<String> updateUploadAttribute(@PathVariable Long storyId) {
         try {
@@ -43,13 +43,11 @@ public class StoryController {
         }
     }
 
-    // 2. 스토리 조회 (UserNum) OOO
+    // 2. 스토리 조회 (UserNum)
     @GetMapping("/view/user/{userNum}")
     public ResponseEntity<Object> viewUserStories(@PathVariable(name = "userNum") Long userNum) {
-
         try {
             List<Story> userStories = storyService.getUserStories(userNum);
-
             // 결과를 그대로 ResponseEntity에 설정
             return ResponseEntity.ok().body(userStories);
         } catch (Exception e) {
@@ -58,7 +56,7 @@ public class StoryController {
         }
     }
 
-    // 3. 스토리 조회 (StoryId) OOO
+    // 3. 스토리 조회 (StoryId)
     @GetMapping("/view/story/{storyId}")
     public ResponseEntity<Story> viewStory(@PathVariable Long storyId) {
         try {
@@ -80,7 +78,7 @@ public class StoryController {
         }
     }
 
-    // 5. 스토리 전체 조회 OOO
+    // 5. 스토리 전체 조회
     @GetMapping("/allStory")
     public ResponseEntity<List<Story>> viewAllStories() {
         try {
@@ -91,7 +89,7 @@ public class StoryController {
         }
     }
 
-    // 6. 스토리 삭제 OOO
+    // 6. 스토리 삭제
     @DeleteMapping("/delete/{storyId}")
     public ResponseEntity<String> deleteStory(@PathVariable Long storyId) {
         try {
@@ -105,13 +103,21 @@ public class StoryController {
 
     // uz
     @PostMapping("/explain/save")
-    public ResponseEntity<String> saveStoryExplain(@RequestHeader("storyId") Long storyId, @RequestBody String storyExplain) {
+//<<<<<<< HEAD
+//    public ResponseEntity<String> saveStoryExplain(@RequestHeader("storyId") Long storyId, @RequestBody String storyExplain) {
+//=======
+    public ResponseEntity<String> saveStoryExplain(@RequestHeader("storyId") long storyId, @RequestBody String storyExplain) {
+//>>>>>>> 752175805187f5f374d9a519c0a48b9269f6cc69
         storyService.saveStoryExplain(storyId, storyExplain); // body가 그대로 저장됨 (json으로 인식 못하는 듯)
         return ResponseEntity.ok("Explain saved successfully for storyId: " + storyId);
     }
 
     @GetMapping("/explain/view")
-    public ResponseEntity<String> viewStoryExplain(@RequestHeader("storyId") Long storyId) {
+//<<<<<<< HEAD
+//    public ResponseEntity<String> viewStoryExplain(@RequestHeader("storyId") Long storyId) {
+//=======
+    public ResponseEntity<String> viewStoryExplain(@RequestHeader("storyId") long storyId) {
+//>>>>>>> 752175805187f5f374d9a519c0a48b9269f6cc69
         String storyExplain = storyService.viewStoryExplain(storyId);
         if (storyExplain != null) {
             return ResponseEntity.ok(storyExplain);

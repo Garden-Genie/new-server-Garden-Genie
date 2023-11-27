@@ -27,11 +27,20 @@ public class Story implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, name = "story_id")
+
     private Long storyId;
 
     @ManyToOne
     @JoinColumn(name = "user_num", referencedColumnName = "user_num", nullable = false)
     private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     @OneToOne
     @JoinColumn(name = "plt_id", referencedColumnName = "plt_id", nullable = false)

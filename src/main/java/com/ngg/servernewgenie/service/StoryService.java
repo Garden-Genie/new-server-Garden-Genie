@@ -2,6 +2,8 @@ package com.ngg.servernewgenie.service;
 
 import com.ngg.servernewgenie.domain.Story;
 import com.ngg.servernewgenie.domain.User;
+import com.ngg.servernewgenie.domain.Follow;
+import com.ngg.servernewgenie.repository.FollowRepository;
 import com.ngg.servernewgenie.repository.StoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
@@ -9,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.Collections;
+import java.util.stream.Collectors;
 
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -26,11 +30,13 @@ public class StoryService {
     private StoryRepository storyRepository;
 
     @Autowired
-    public StoryService(StoryRepository storyRepository) {
+    private FollowRepository followRepository;
+
+    @Autowired
+    public StoryService(FollowRepository followRepository, StoryRepository storyRepository) {
+        this.followRepository = followRepository;
         this.storyRepository = storyRepository;
     }
-
-    //--------------sh
 
     @Transactional
     public void updateUploadByStoryId(Long storyId) {
@@ -49,13 +55,18 @@ public class StoryService {
         return optionalStory.orElse(null);
     }
 
-    // 4. 스토리 조회 (fromUserNum)
     @Transactional(readOnly = true)
     public List<Story> getFollowingStories(Long fromUserNum) {
+        List<Follow> follows = followRepository.findByFromUser_UserNum(fromUserNum);
+        List<Long> toUserNums = follows.stream()
+                .map(follow -> follow.getToUser().getUserNum())
+                .collect(Collectors.toList());
 
-        // todo : Logic to get stories from following users
+        if (toUserNums.isEmpty()) {
+            return Collections.emptyList();
+        }
 
-        return null;
+        return storyRepository.findByUser_UserNumIn(toUserNums);
     }
 
     @Transactional(readOnly = true)
@@ -67,7 +78,6 @@ public class StoryService {
     public void deleteStory(Long storyId) {
         storyRepository.deleteById(storyId);
     }
-    //-----------------
 
 
     public void saveStoryExplain(Long storyId, String storyExplain) {

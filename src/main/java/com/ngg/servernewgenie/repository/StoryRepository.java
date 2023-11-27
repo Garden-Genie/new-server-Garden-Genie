@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
@@ -18,5 +17,7 @@ public interface StoryRepository extends JpaRepository<Story, Long> {
     void updateUploadStatus(@Param("storyId") Long storyId);
 
     List<Story> findByUser_UserNum(Long userNum);
+
+    List<Story> findByUser_UserNumIn(List<Long> userNums);
 
 }

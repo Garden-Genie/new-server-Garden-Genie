@@ -15,7 +15,6 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-
     public User getUserByUserNum(Long userNum) {
         // UserRepository를 사용하여 사용자 정보를 조회
         return userRepository.findByUserNum(userNum);
