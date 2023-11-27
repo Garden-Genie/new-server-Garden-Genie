@@ -21,6 +21,10 @@ public class User implements Serializable {
     @Column(name = "user_num", nullable = false)
     private Long userNum;
 
+    public Long getNum() {
+        return userNum;
+    }
+
     @Column(name = "user_id", length = 20, nullable = false)
     private String userId;
 
@@ -37,6 +41,10 @@ public class User implements Serializable {
     @Builder.Default
     private List<Authority> roles = new ArrayList<>();
 
+
+    public User(Long userNum) {
+        this.userNum = userNum;
+    }
 
     public void setRoles(List<Authority> role){
         this.roles = role;
