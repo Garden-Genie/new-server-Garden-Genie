@@ -20,7 +20,7 @@ public class StoryService {
     private StoryRepository storyRepository;
 
 
-    public void saveStoryExplain(int storyId, String storyExplain) {
+    public void saveStoryExplain(Long storyId, String storyExplain) {
         Optional<Story> optionalStory = storyRepository.findById(storyId);
         if (optionalStory.isPresent()) {
             Story story = optionalStory.get();
@@ -32,7 +32,7 @@ public class StoryService {
         }
     }
 
-    public String viewStoryExplain(int storyId) {
+    public String viewStoryExplain(Long storyId) {
         Optional<Story> optionalStory = storyRepository.findById(storyId);
         if (optionalStory.isPresent()) {
             Story story = optionalStory.get();

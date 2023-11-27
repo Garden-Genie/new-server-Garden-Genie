@@ -15,13 +15,13 @@ public class StoryController {
     private StoryService storyService;
 
     @PostMapping("/explain/save")
-    public ResponseEntity<String> saveStoryExplain(@RequestHeader("storyId") int storyId, @RequestBody String storyExplain) {
+    public ResponseEntity<String> saveStoryExplain(@RequestHeader("storyId") Long storyId, @RequestBody String storyExplain) {
         storyService.saveStoryExplain(storyId, storyExplain); // body가 그대로 저장됨 (json으로 인식 못하는 듯)
         return ResponseEntity.ok("Explain saved successfully for storyId: " + storyId);
     }
 
     @GetMapping("/explain/view")
-    public ResponseEntity<String> viewStoryExplain(@RequestHeader("storyId") int storyId) {
+    public ResponseEntity<String> viewStoryExplain(@RequestHeader("storyId") Long storyId) {
         String storyExplain = storyService.viewStoryExplain(storyId);
         if (storyExplain != null) {
             return ResponseEntity.ok(storyExplain);
