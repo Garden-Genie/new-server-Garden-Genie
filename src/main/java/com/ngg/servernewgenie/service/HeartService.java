@@ -75,14 +75,14 @@ public class HeartService {
         }
     }
 
-    public List<HeartResponseDTO> getLikedStoriesByUser(Long userId) {
-        User user = userRepository.findById(userId)
+    public List<HeartResponseDTO> getLikedStoriesByUser(Long userNum) {
+        User user = userRepository.findById(userNum)
                 .orElseThrow(() -> new RuntimeException("사용자가 존재하지 않습니다."));
 
         List<Heart> hearts = heartRepository.findByLiker(user);
 
         return hearts.stream()
-                .map(heart -> new HeartResponseDTO(heart.getH_id(), userId, heart.getStory().getStory_id()))
+                .map(heart -> new HeartResponseDTO(heart.getH_id(), userNum, heart.getStory().getStory_id()))
                 .collect(Collectors.toList());
     }
 

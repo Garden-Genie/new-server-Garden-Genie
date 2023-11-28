@@ -32,13 +32,13 @@ public class HeartController {
         return ResponseEntity.ok("좋아요 취소 성공");
     }
 
-    @GetMapping("/heart/view/{userId}")
-    public ResponseEntity<List<HeartResponseDTO>> getLikedStoriesByUser(@PathVariable Long userId) {
-        List<HeartResponseDTO> likedStories = heartService.getLikedStoriesByUser(userId);
+    @GetMapping("/heart/view/user/{userNum}")
+    public ResponseEntity<List<HeartResponseDTO>> getLikedStoriesByUser(@PathVariable Long userNum) {
+        List<HeartResponseDTO> likedStories = heartService.getLikedStoriesByUser(userNum);
         return ResponseEntity.ok(likedStories);
     }
 
-    @GetMapping("/heart/view/{storyId}")
+    @GetMapping("/heart/view/story/{storyId}")
     public ResponseEntity<Integer> getLikeCountByStory(@PathVariable Long storyId) {
         int likeCount = heartService.getLikeCountByStory(storyId);
         return ResponseEntity.ok(likeCount);
