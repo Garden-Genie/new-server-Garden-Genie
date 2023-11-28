@@ -20,15 +20,15 @@ public class Follow implements Serializable {
     private Long followId;
 
     @ManyToOne
-    @JoinColumn(name = "to_user_id", referencedColumnName = "user_num", nullable = false)
-    private User toUser;
-
-    @ManyToOne
     @JoinColumn(name = "from_user_id", referencedColumnName = "user_num", nullable = false)
     private User fromUser;
 
-    public Follow(User toUser, User fromUser) {
-        this.toUser = toUser;
+    @ManyToOne
+    @JoinColumn(name = "to_user_id", referencedColumnName = "user_num", nullable = false)
+    private User toUser;
+
+    public Follow(User fromUser, User toUser) {
         this.fromUser = fromUser;
+        this.toUser = toUser;
     }
 }
