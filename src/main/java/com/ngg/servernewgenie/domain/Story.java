@@ -24,6 +24,10 @@ public class Story implements Serializable {
     @JoinColumn(name = "plt_id", referencedColumnName = "plt_id", nullable = false)
     private Plant plant;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
+    private User user;
+
     @Column(nullable = false, name = "story_date")
     private LocalDateTime story_date;
 
@@ -42,8 +46,9 @@ public class Story implements Serializable {
     @Column(nullable = false, name = "upload", columnDefinition = "boolean default false")
     private boolean upload;
 
-    public Story(long story_id, LocalDateTime story_date, String story_explain, String story_music, String story_poem, String story_condition, Plant plant, boolean upload){
+    public Story(Long story_id, User user, LocalDateTime story_date, String story_explain, String story_music, String story_poem, String story_condition, Plant plant, boolean upload){
         this.story_id = story_id;
+        this.user = user;
         this.story_date = story_date;
         this.story_explain = story_explain;
         this.story_music = story_music;
