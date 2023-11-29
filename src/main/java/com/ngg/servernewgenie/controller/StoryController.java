@@ -1,20 +1,13 @@
 package com.ngg.servernewgenie.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ngg.servernewgenie.domain.Story;
-import com.ngg.servernewgenie.domain.User;
 import com.ngg.servernewgenie.service.StoryService;
 import com.ngg.servernewgenie.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.ngg.servernewgenie.dto.StoryExplainResponseDto;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 
@@ -103,21 +96,15 @@ public class StoryController {
 
     // uz
     @PostMapping("/explain/save")
-//<<<<<<< HEAD
-//    public ResponseEntity<String> saveStoryExplain(@RequestHeader("storyId") Long storyId, @RequestBody String storyExplain) {
-//=======
-    public ResponseEntity<String> saveStoryExplain(@RequestHeader("storyId") long storyId, @RequestBody String storyExplain) {
-//>>>>>>> 752175805187f5f374d9a519c0a48b9269f6cc69
+    public ResponseEntity<String> saveStoryExplain(@RequestHeader("storyId") Long storyId, @RequestBody String storyExplain) {
         storyService.saveStoryExplain(storyId, storyExplain); // body가 그대로 저장됨 (json으로 인식 못하는 듯)
         return ResponseEntity.ok("Explain saved successfully for storyId: " + storyId);
     }
 
+    /*
+    // header로 {storyId} 받는 방식
     @GetMapping("/explain/view")
-//<<<<<<< HEAD
-//    public ResponseEntity<String> viewStoryExplain(@RequestHeader("storyId") Long storyId) {
-//=======
-    public ResponseEntity<String> viewStoryExplain(@RequestHeader("storyId") long storyId) {
-//>>>>>>> 752175805187f5f374d9a519c0a48b9269f6cc69
+    public ResponseEntity<String> viewStoryExplain(@RequestHeader("storyId") Long storyId) {
         String storyExplain = storyService.viewStoryExplain(storyId);
         if (storyExplain != null) {
             return ResponseEntity.ok(storyExplain);
@@ -129,6 +116,60 @@ public class StoryController {
                     .body("Explain not found for storyId " + storyId);
         }
     }
+    */
+
+    // Get Story/explain/view/{storyId}
+    // {storyId} 스토리의 설명 가져오는 API
+    @GetMapping("/explain/view/{storyId}")
+    public ResponseEntity<String> viewStoryExplain(@PathVariable Long storyId) {
+        String storyExplain = storyService.viewStoryExplain(storyId);
+        if (storyExplain != null) {
+            return ResponseEntity.ok(storyExplain);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Explain not found for storyId " + storyId);
+        }
+    }
+
+    // Get Story/music/view/{storyId}
+    // {storyId} 스토리의 추천 음악 가져오는 API
+    @GetMapping("/music/view/{storyId}")
+    public ResponseEntity<String> viewStoryMusic(@PathVariable Long storyId) {
+        String storyMusic = storyService.viewStoryMusic(storyId);
+        if (storyMusic != null) {
+            return ResponseEntity.ok(storyMusic);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Music not found for storyId " + storyId);
+        }
+    }
+
+    // Get Story/poem/view/{storyId}
+    // {storyId} 스토리의 시 가져오는 API
+    @GetMapping("/poem/view/{storyId}")
+    public ResponseEntity<String> viewStoryPoem(@PathVariable Long storyId) {
+        String storyPoem = storyService.viewStoryPoem(storyId);
+        if (storyPoem != null) {
+            return ResponseEntity.ok(storyPoem);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Poem not found for storyId " + storyId);
+        }
+    }
+
+    // Get Story/condition/view/{storyId}
+    // {storyId} 스토리의 상태(조언) 가져오는 API
+    @GetMapping("/condition/view/{storyId}")
+    public ResponseEntity<String> viewStoryCondition(@PathVariable Long storyId) {
+        String storyCondition = storyService.viewStoryCondition(storyId);
+        if (storyCondition != null) {
+            return ResponseEntity.ok(storyCondition);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Condition not found for storyId " + storyId);
+        }
+    }
+
 
 //    @GetMapping("/explain/view")
 //    public ResponseEntity<String> viewStoryExplain(@RequestParam("storyId") int storyId) {
