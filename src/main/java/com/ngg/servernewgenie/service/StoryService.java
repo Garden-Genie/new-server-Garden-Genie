@@ -103,5 +103,73 @@ public class StoryService {
         }
     }
 
+    public void saveStoryMusic(Long storyId, String message) {
+        Optional<Story> optionalStory = storyRepository.findById(storyId);
+        if (optionalStory.isPresent()) {
+            Story story = optionalStory.get();
+            story.setStoryMusic(message);
+            storyRepository.save(story);
+        } else {
+            // 해당 storyId에 대한 스토리를 찾을 수 없는 경우에 대한 예외 처리
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Story not found for storyId: " + storyId);
+        }
+    }
+
+    public String viewStoryMusic(Long storyId) {
+        Optional<Story> optionalStory = storyRepository.findById(storyId);
+        if (optionalStory.isPresent()) {
+            Story story = optionalStory.get();
+            return story.getStoryMusic();
+        } else {
+            // 해당 storyId에 대한 스토리를 찾을 수 없는 경우에 대한 예외 처리
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Story not found for storyId: " + storyId);
+        }
+    }
+
+    public void saveStoryCondition(Long storyId, String message) {
+        Optional<Story> optionalStory = storyRepository.findById(storyId);
+        if (optionalStory.isPresent()) {
+            Story story = optionalStory.get();
+            story.setStoryCondition(message);
+            storyRepository.save(story);
+        } else {
+            // 해당 storyId에 대한 스토리를 찾을 수 없는 경우에 대한 예외 처리
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Story not found for storyId: " + storyId);
+        }
+    }
+
+    public String viewStoryCondition(Long storyId) {
+        Optional<Story> optionalStory = storyRepository.findById(storyId);
+        if (optionalStory.isPresent()) {
+            Story story = optionalStory.get();
+            return story.getStoryCondition();
+        } else {
+            // 해당 storyId에 대한 스토리를 찾을 수 없는 경우에 대한 예외 처리
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Story not found for storyId: " + storyId);
+        }
+    }
+
+    public void saveStoryPoem(Long storyId, String message) {
+        Optional<Story> optionalStory = storyRepository.findById(storyId);
+        if (optionalStory.isPresent()) {
+            Story story = optionalStory.get();
+            story.setStoryPoem(message);
+            storyRepository.save(story);
+        } else {
+            // 해당 storyId에 대한 스토리를 찾을 수 없는 경우에 대한 예외 처리
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Story not found for storyId: " + storyId);
+        }
+    }
+
+    public String viewStoryPoem(Long storyId) {
+        Optional<Story> optionalStory = storyRepository.findById(storyId);
+        if (optionalStory.isPresent()) {
+            Story story = optionalStory.get();
+            return story.getStoryPoem();
+        } else {
+            // 해당 storyId에 대한 스토리를 찾을 수 없는 경우에 대한 예외 처리
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Story not found for storyId: " + storyId);
+        }
+    }
 
 }

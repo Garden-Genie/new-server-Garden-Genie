@@ -41,7 +41,7 @@ public class ChatService {
 
     public ChatGptResponseDto askQuestion(QuestionRequestDto requestDto) {
         ChatGptRequestDto chatGptRequestDto = new ChatGptRequestDto();
-        chatGptRequestDto.setModel("gpt-3.5-turbo");
+        chatGptRequestDto.setModel("gpt-3.5-turbo-1106");
 
         chatGptRequestDto.setMessages(Collections.singletonList(
                 ChatGptRequestDto.Message.builder()

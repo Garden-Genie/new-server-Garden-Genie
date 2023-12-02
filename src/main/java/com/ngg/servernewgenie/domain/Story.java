@@ -83,4 +83,27 @@ public class Story implements Serializable {
     public String getStoryExplain() {
         return story_explain;
     }
+
+    public void setStoryCondition(String storyCondition) {
+        this.story_condition = storyCondition;
+    }
+
+    public String getStoryCondition() {
+        return story_condition;
+    }
+
+    public void setStoryMusic(String storyMusic) {
+        this.story_music = storyMusic;
+    }
+
+    public String getStoryMusic() {
+        return story_music;
+    }
+    public void setStoryPoem(String storyPoem) {
+        this.story_poem = storyPoem;
+    }
+
+    public String getStoryPoem() {
+        return story_poem;
+    }
 }
