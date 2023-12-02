@@ -34,16 +34,17 @@ public class FollowController {
         }
 
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-        User toUser = userRepository.findById(userDetails.getUserNum())
+        User fromUser = userRepository.findById(userDetails.getUserNum())
                 .orElseThrow(() -> new RuntimeException("인증된 사용자를 찾을 수 없습니다."));
 
-        User fromUser = userRepository.findById(toUserId)
+        User toUser = userRepository.findById(toUserId)
                 .orElseThrow(() -> new RuntimeException("팔로우 대상 사용자를 찾을 수 없습니다."));
 
         followService.follow(fromUser, toUser);
 
         return new ResponseEntity<>("팔로우 성공", HttpStatus.OK);
     }
+
 
     @DeleteMapping("/follow/{toUserId}")
     public ResponseEntity unfollowUser(@PathVariable Long toUserId) {
@@ -85,6 +86,55 @@ public class FollowController {
         return new ResponseEntity<>(followingUsers, HttpStatus.OK);
     }
 
+    @GetMapping("/follow/followingNums")
+    public ResponseEntity<List<Long>> getFollowingUserNums() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return new ResponseEntity<>(Collections.emptyList(), HttpStatus.UNAUTHORIZED);
+        }
+
+        Object principal = authentication.getPrincipal();
+        if (principal instanceof CustomUserDetails) {
+            CustomUserDetails userDetails = (CustomUserDetails) principal;
+            User fromUser = userRepository.findById(userDetails.getUserNum()).orElse(null);
+
+            if (fromUser == null) {
+                return new ResponseEntity<>(Collections.emptyList(), HttpStatus.NOT_FOUND);
+            }
+
+            List<Long> followingUserIds = followService.getFollowingUserNums(fromUser);
+
+            return ResponseEntity.ok(followingUserIds);
+        } else {
+            return new ResponseEntity<>(Collections.emptyList(), HttpStatus.UNAUTHORIZED);
+        }
+    }
+
+    @GetMapping("/follow/followingUserIds")
+    public ResponseEntity<List<String>> getFollowingUserIds() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return new ResponseEntity<>(Collections.emptyList(), HttpStatus.UNAUTHORIZED);
+        }
+
+        Object principal = authentication.getPrincipal();
+        if (principal instanceof CustomUserDetails) {
+            CustomUserDetails userDetails = (CustomUserDetails) principal;
+            User fromUser = userRepository.findById(userDetails.getUserNum()).orElse(null);
+
+            if (fromUser == null) {
+                return new ResponseEntity<>(Collections.emptyList(), HttpStatus.NOT_FOUND);
+            }
+
+            List<String> followingUserIds = followService.getFollowingUserIds(fromUser);
+
+            return ResponseEntity.ok(followingUserIds);
+        } else {
+            return new ResponseEntity<>(Collections.emptyList(), HttpStatus.UNAUTHORIZED);
+        }
+    }
+
+
     @GetMapping("/follow/followingCount/{userId}")
     public ResponseEntity<Long> getFollowingCount(@PathVariable Long userId) {
         User user = new User();
@@ -94,21 +144,5 @@ public class FollowController {
         return new ResponseEntity<>(followingCount, HttpStatus.OK);
     }
 
-//    @GetMapping("/follow/followingStories")
-//    public ResponseEntity<List<Story>> getFollowingStories() {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        if (authentication == null || !authentication.isAuthenticated()) {
-//            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-//        }
-//
-//        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-//        Long userId = userDetails.getUserNum();
-//        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
-//
-//        List<Follow> followingList = followService.getFollowingList(user);
-//        List<Story> followingStories = followService.followingStories(followingList);
-//
-//
-//        return new ResponseEntity<>(followingStories, HttpStatus.OK);
-//    }
+
 }

@@ -9,6 +9,9 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
+@Repository
 public interface FollowRepository extends JpaRepository<Follow, Long> {
 
     @Modifying
@@ -24,6 +27,8 @@ public interface FollowRepository extends JpaRepository<Follow, Long> {
     List<Follow> findToUserByFromUser(User fromUser);
 
     Follow findFollowByFromUserAndToUser(User fromUser, User toUser);
+
+    List<Follow> findByFromUser_UserNum(Long fromUserNum);
 
 }
 

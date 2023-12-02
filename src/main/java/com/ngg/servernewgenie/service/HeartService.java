@@ -82,7 +82,7 @@ public class HeartService {
         List<Heart> hearts = heartRepository.findByLiker(user);
 
         return hearts.stream()
-                .map(heart -> new HeartResponseDTO(heart.getH_id(), userNum, heart.getStory().getStory_id()))
+                .map(heart -> new HeartResponseDTO(heart.getH_id(), userNum, heart.getStory().getStoryId()))
                 .collect(Collectors.toList());
     }
 

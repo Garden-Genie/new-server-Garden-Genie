@@ -1,5 +1,6 @@
 package com.ngg.servernewgenie.service;
 
+import com.ngg.servernewgenie.domain.CustomUserDetails;
 import com.ngg.servernewgenie.domain.Follow;
 import com.ngg.servernewgenie.domain.Story;
 import com.ngg.servernewgenie.domain.User;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -43,25 +45,30 @@ public class FollowService {
         return followRepository.findAllByFromUser(fromUser);
     }
 
+    @Transactional
+    public List<Long> getFollowingUserNums(User fromUser) {
+        List<Follow> follows = followRepository.findAllByFromUser(fromUser);
+        return follows.stream()
+                .map(follow -> follow.getToUser().getUserNum())
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public List<String> getFollowingUserIds(User fromUser) {
+        List<Follow> follows = followRepository.findAllByFromUser(fromUser);
+        return follows.stream()
+                .map(follow -> follow.getToUser().getUserId())
+                .collect(Collectors.toList());
+    }
+
+
+
+
     public Long getFollowingCount(User fromUser) {
         return followRepository.countByFromUser(fromUser);
     }
 
-//    @Transactional
-//    public List<Story> followingStories(List<Follow> getFollowingList) {
-//        List<Long> followingUserId = getFollowingList.stream()
-//                .map(follow -> follow.getToUser().getUserNum())
-//                .collect(Collectors.toList());
-//
-//        List<Story> followingStories = new ArrayList<>();
-//
-//        for (Long userId : followingUserId) {
-//            List<Story> storiesForUser = storyRepository.findAllByUserId(userId);
-//            followingStories.addAll(storiesForUser);
-//        }
-//
-//        return followingStories;
-//    }
+
 }
 
 

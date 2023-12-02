@@ -21,6 +21,10 @@ public class User implements Serializable {
     @Column(name = "user_num", nullable = false)
     private Long userNum;
 
+    public Long getNum() {
+        return userNum;
+    }
+
     @Column(name = "user_id", length = 20, nullable = false)
     private String userId;
 
