@@ -131,7 +131,8 @@ public class StoryController {
     }
 
 
-    // uz
+    // Unused "API"
+    // Post story/explain/save
     @PostMapping("/explain/save")
     public ResponseEntity<String> saveStoryExplain(@RequestHeader("storyId") Long storyId, @RequestBody String storyExplain) {
         storyService.saveStoryExplain(storyId, storyExplain); // body가 그대로 저장됨 (json으로 인식 못하는 듯)
@@ -139,6 +140,7 @@ public class StoryController {
     }
 
     /*
+    // Post story/explain/save (with header)
     // header로 {storyId} 받는 방식
     @GetMapping("/explain/view")
     public ResponseEntity<String> viewStoryExplain(@RequestHeader("storyId") Long storyId) {
@@ -154,7 +156,8 @@ public class StoryController {
         }
     }
     */
-    ////////////////////////
+
+    // getMessages
     private List<Map<String, String>> getMessages(QuestionRequestDto requestDto) {
         List<Map<String, String>> messages = new ArrayList<>();
 
@@ -166,8 +169,9 @@ public class StoryController {
         return messages;
     }
     
-    
-    //
+
+    // Post story/explain/save/{storyId}
+    // chatGPT API를 활용해 식물의 설명을 {storyId}의 story_explain에 저장
     @PostMapping("/explain/save/{storyId}")
     public ResponseEntity<String> saveStoryExplain(@PathVariable Long storyId, Authentication authentication) {
         String pltName = null;
@@ -260,8 +264,9 @@ public class StoryController {
         }
     }
 
-    ///////////////////////////////////////////
-    //
+
+    // Post story/music/save/{storyId}
+    // chatGPT API를 활용해 식물에게 어울리는 음악을 {storyId}의 story_music에 저장
     @PostMapping("/music/save/{storyId}")
     public ResponseEntity<String> saveStoryMusic(@PathVariable Long storyId, Authentication authentication) {
         String pltName = null;
@@ -340,8 +345,8 @@ public class StoryController {
         }
     }
 
-    ///////////////////////////////////
-    //
+    // Post story/poem/save/{storyId}
+    // chatGPT API를 활용해 식물의 설명을 {storyId}의 story_poem에 저장
     @PostMapping("/poem/save/{storyId}")
     public ResponseEntity<String> saveStoryPoem(@PathVariable Long storyId, Authentication authentication) {
         String pltName = null;
@@ -434,8 +439,8 @@ public class StoryController {
     }
 
 
-    ///////////////////////////////////
-    //
+    // Post story/condition/save/{storyId}
+    // chatGPT API를 활용해 식물의 설명을 {storyId}의 story_condition에 저장
     @PostMapping("/condition/save/{storyId}")
     public ResponseEntity<String> saveStoryCondition(@PathVariable Long storyId, Authentication authentication) {
         String pltName = null;
@@ -527,17 +532,5 @@ public class StoryController {
                     .body("Condition not found for storyId " + storyId);
         }
     }
-
-
-//    @GetMapping("/explain/view")
-//    public ResponseEntity<String> viewStoryExplain(@RequestParam("storyId") int storyId) {
-//        String storyExplain = storyService.viewStoryExplain(storyId);
-//        if (storyExplain != null) {
-//            return ResponseEntity.ok("Explain for storyId " + storyId + ": " + storyExplain);
-//        } else {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-//                    .body("Explain not found for storyId " + storyId);
-//        }
-//    }
 
 }
