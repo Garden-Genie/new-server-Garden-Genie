@@ -1,10 +1,17 @@
 package com.ngg.servernewgenie.repository;
 
 import com.ngg.servernewgenie.domain.Heart;
+import com.ngg.servernewgenie.domain.Story;
+import com.ngg.servernewgenie.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import org.springframework.stereotype.Repository;
+import java.util.List;
 
-@Repository
 public interface HeartRepository extends JpaRepository<Heart, Long> {
+
+    Heart findByLikerAndStory(User liker, Story story);
+
+    List<Heart> findByLiker(User liker);
+
+    List<Heart> findByStory(Story story);
 }

@@ -68,6 +68,7 @@ public class SecurityConfig {
                 .antMatchers("/Plant/**", "/Story/**").permitAll()
                 .antMatchers("/follow/**").permitAll()
                 .antMatchers("/Follow/**").permitAll()
+                .antMatchers("/heart/**").permitAll()
                 // /chat-gpt/** 은 모두 승인
                 .antMatchers("/chat-gpt/**").permitAll()
                 // /admin으로 시작하는 요청은 ADMIN 권한이 있는 유저에게만 허용
