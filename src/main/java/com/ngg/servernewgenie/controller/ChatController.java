@@ -25,7 +25,7 @@ import java.util.Map;
 public class ChatController {
     private final ChatService chatService;
     private final PlantRepository plantRepository;
-
+    
     public ChatController(ChatService chatService, PlantRepository plantRepository) {
         this.chatService = chatService;
         this.plantRepository = plantRepository;
